@@ -8,7 +8,7 @@ from binance.lib.utils import get_timestamp
 from binance.lib.utils import cleanNoneValue
 from binance.lib.utils import encoded_string
 from binance.lib.utils import check_required_parameter
-from binance.lib.authentication import hmac_hashing, rsa_signature
+from binance.lib.authentication import hmac_hashing, rsa_signature, ed25519_signature
 
 
 class API(object):
@@ -32,6 +32,7 @@ class API(object):
         show_limit_usage=False,
         show_header=False,
         private_key=None,
+        ised25519=False,
         private_key_passphrase=None,
     ):
         self.key = key
@@ -41,6 +42,7 @@ class API(object):
         self.show_header = False
         self.proxies = None
         self.private_key = private_key
+        self.ised25519 = ised25519
         self.private_key_pass = private_key_passphrase
         self.session = requests.Session()
         self.session.headers.update(
@@ -149,6 +151,8 @@ class API(object):
 
     def _get_sign(self, payload):
         if self.private_key:
+            if self.ised25519:
+                return ed25519_signature(self.private_key, payload)
             return rsa_signature(self.private_key, payload, self.private_key_pass)
         return hmac_hashing(self.secret, payload)
 

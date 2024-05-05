@@ -71,10 +71,18 @@ class BinanceSocketManager(threading.Thread):
                     self.logger.error("Lost websocket connection")
                 else:
                     self.logger.error("Websocket exception: {}".format(e))
-                raise e
+                if self.ws.connected:
+                    self.ws.send_close()
+                self.ws.connected = False
+                self._callback(self.on_error, e)
+                break
             except Exception as e:
                 self.logger.error("Exception in read_data: {}".format(e))
-                raise e
+                if self.ws.connected:
+                   self.ws.send_close()
+                self.ws.connected = False
+                self._callback(self.on_error, e)
+                break
 
             if op_code == ABNF.OPCODE_CLOSE:
                 self.logger.warning(

@@ -288,7 +288,7 @@ def ticker_price(self, symbol: str = None):
     |
     | **Latest price for a symbol or symbols.**
 
-    :API endpoint: ``GET /fapi/v1/ticker/price``
+    :API endpoint: ``GET /fapi/v2/ticker/price``
     :API doc: https://binance-docs.github.io/apidocs/futures/en/#symbol-price-ticker
 
     :parameter symbol: optional string; the trading symbol.
@@ -301,7 +301,7 @@ def ticker_price(self, symbol: str = None):
     params = {
         "symbol": symbol,
     }
-    return self.query("/fapi/v1/ticker/price", params)
+    return self.query("/fapi/v2/ticker/price", params)
 
 
 def book_ticker(self, symbol: str = None):
