@@ -19,6 +19,6 @@ def rsa_signature(private_key, payload, private_key_pass=None):
     return b64encode(signature)
 
 def ed25519_signature(private_key, payload):
-    private_key = ECC.import_private_key(private_key)
+    private_key = ECC.import_key(private_key)
     signature = eddsa.new(private_key, 'rfc8032').sign(payload.encode("utf-8"))
     return b64encode(signature)
