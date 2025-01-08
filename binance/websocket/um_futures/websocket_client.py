@@ -39,7 +39,7 @@ class UMFuturesWebsocketClient(BinanceWebsocketClient):
 
         Stream Name: <symbol>@aggTrade
 
-        https://binance-docs.github.io/apidocs/futures/en/#aggregate-trade-streams
+        https://developers.binance.com/docs/derivatives/usds-margined-futures/websocket-market-streams/Aggregate-Trade-Streams
 
         Update Speed: 100ms
         """
@@ -54,11 +54,27 @@ class UMFuturesWebsocketClient(BinanceWebsocketClient):
 
         Stream Name: <symbol>@markPrice or <symbol>@markPrice@1s
 
-        https://binance-docs.github.io/apidocs/futures/en/#mark-price-stream
+        https://developers.binance.com/docs/derivatives/usds-margined-futures/websocket-market-streams/Mark-Price-Stream
 
         Update Speed: 3000ms or 1000ms
         """
         stream_name = "{}@markPrice@{}s".format(symbol.lower(), speed)
+
+        self.send_message_to_server(stream_name, action=action, id=id)
+
+    def mark_price_all_market(self, speed=1, id=None, action=None, **kwargs):
+        """Mark Price Stream for All market
+
+        Stream Name: !markPrice@arr OR !markPrice@arr@1s
+
+        https://developers.binance.com/docs/derivatives/usds-margined-futures/websocket-market-streams/Mark-Price-Stream-for-All-market
+
+        Update Speed: 3000ms or 1000ms
+        """
+        if speed == 1:
+            stream_name = "!markPrice@arr@{}s".format(speed)
+        else:
+            stream_name = "!markPrice@arr"
 
         self.send_message_to_server(stream_name, action=action, id=id)
 
@@ -69,7 +85,7 @@ class UMFuturesWebsocketClient(BinanceWebsocketClient):
 
         Stream Name: <symbol>@kline_<interval>
 
-        https://binance-docs.github.io/apidocs/futures/en/#kline-candlestick-streams
+        https://developers.binance.com/docs/derivatives/usds-margined-futures/websocket-market-streams/Kline-Candlestick-Streams
 
         interval:
         m -> minutes; h -> hours; d -> days; w -> weeks; M -> months
@@ -111,7 +127,7 @@ class UMFuturesWebsocketClient(BinanceWebsocketClient):
 
         Stream Name: <pair>_<contractType>@continuousKline_<interval>
 
-        https://binance-docs.github.io/apidocs/futures/en/#continuous-contract-kline-candlestick-streams
+        https://developers.binance.com/docs/derivatives/usds-margined-futures/websocket-market-streams/Continuous-Contract-Kline-Candlestick-Streams
 
         interval:
         m -> minutes; h -> hours; d -> days; w -> weeks; M -> months
@@ -149,8 +165,8 @@ class UMFuturesWebsocketClient(BinanceWebsocketClient):
         Stream Name: <symbol>@miniTicker or
         Stream Name: !miniTicker@arr
 
-        https://binance-docs.github.io/apidocs/futures/en/#individual-symbol-mini-ticker-stream
-        https://binance-docs.github.io/apidocs/futures/en/#individual-symbol-ticker-streams
+        https://developers.binance.com/docs/derivatives/usds-margined-futures/websocket-market-streams/Individual-Symbol-Mini-Ticker-Stream
+        https://developers.binance.com/docs/derivatives/usds-margined-futures/websocket-market-streams/All-Market-Mini-Tickers-Stream
 
         Update Speed: 500ms for individual symbol, 1000ms for all market symbols
         """
@@ -171,8 +187,8 @@ class UMFuturesWebsocketClient(BinanceWebsocketClient):
         Stream Name: <symbol>@ticker or
         Stream Name: !ticker@arr
 
-        https://binance-docs.github.io/apidocs/futures/en/#individual-symbol-ticker-streams
-        https://binance-docs.github.io/apidocs/futures/en/#all-market-tickers-streams
+        https://developers.binance.com/docs/derivatives/usds-margined-futures/websocket-market-streams/Individual-Symbol-Ticker-Streams
+        https://developers.binance.com/docs/derivatives/usds-margined-futures/websocket-market-streams/All-Market-Tickers-Streams
 
         Update Speed: 500ms for individual symbol, 1000ms for all market symbols
         """
@@ -191,8 +207,8 @@ class UMFuturesWebsocketClient(BinanceWebsocketClient):
         Stream Name: <symbol>@bookTicker or
         Stream Name: !bookTicker
 
-        https://binance-docs.github.io/apidocs/futures/en/#individual-symbol-book-ticker-streams
-        https://binance-docs.github.io/apidocs/futures/en/#all-book-tickers-stream
+        https://developers.binance.com/docs/derivatives/usds-margined-futures/websocket-market-streams/Individual-Symbol-Book-Ticker-Streams
+        https://developers.binance.com/docs/derivatives/usds-margined-futures/websocket-market-streams/All-Book-Tickers-Stream
 
         Update Speed: Real-time
         """
@@ -208,7 +224,7 @@ class UMFuturesWebsocketClient(BinanceWebsocketClient):
 
         Stream Name: <symbol>@depth OR <symbol>@depth@500ms OR<symbol>@depth@100ms
 
-        https://binance-docs.github.io/apidocs/futures/en/#diff-book-depth-streams
+        https://developers.binance.com/docs/derivatives/usds-margined-futures/websocket-market-streams/Diff-Book-Depth-Streams
 
         Update Speed: 250ms, 500ms or 100ms
         """
@@ -226,7 +242,7 @@ class UMFuturesWebsocketClient(BinanceWebsocketClient):
 
         Stream Names: <symbol>@depth<levels> OR <symbol>@depth<levels>@500ms OR <symbol>@depth<levels>@100ms
 
-        https://binance-docs.github.io/apidocs/futures/en/#partial-book-depth-streams
+        https://developers.binance.com/docs/derivatives/usds-margined-futures/websocket-market-streams/Partial-Book-Depth-Streams
 
         Update Speed: 250ms, 500ms or 100ms
         """
@@ -243,8 +259,8 @@ class UMFuturesWebsocketClient(BinanceWebsocketClient):
         Stream Name: <symbol>@forceOrder or
         Stream Name: !forceOrder@arr
 
-        https://binance-docs.github.io/apidocs/futures/en/#liquidation-order-streams
-        https://binance-docs.github.io/apidocs/futures/en/#all-market-liquidation-order-streams
+        https://developers.binance.com/docs/derivatives/usds-margined-futures/websocket-market-streams/Liquidation-Order-Streams
+        https://developers.binance.com/docs/derivatives/usds-margined-futures/websocket-market-streams/All-Market-Liquidation-Order-Streams
 
         Update Speed: 1000ms
         """
@@ -260,7 +276,7 @@ class UMFuturesWebsocketClient(BinanceWebsocketClient):
 
         Stream Name: <symbol>@compositeIndex
 
-        https://binance-docs.github.io/apidocs/futures/en/#composite-index-symbol-information-streams
+        https://developers.binance.com/docs/derivatives/usds-margined-futures/websocket-market-streams/Composite-Index-Symbol-Information-Streams
 
         Update Speed: 1000ms
         """
